@@ -1,23 +1,30 @@
 const express = require("express");
+const nunjucks = require("nunjucks");
 
 const app = express();
 
-const logMiddleWare = (req, res, next) => {
-  console.log(
-    `HOST: ${req.headers.host} | URL: ${req.url} | METHOD: ${req.method}`
-  );
-
-  return next();
-};
-
-app.use(logMiddleWare);
-
-app.get("/", (req, res) => {
-  return res.send(`Bem Vindo(a), ${req.query.name}`);
+nunjucks.configure("modulo1/views", {
+  autoescape: true,
+  express: app,
+  watch: true
 });
 
-app.get("/nome/:name", (req, res) => {
-  return res.send(`Bem vindo(a), ${req.params.name}`);
+app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "njk");
+
+const users = ["Victor", "Adriano", "Marcelo", "Thiago"];
+
+app.get("/", (req, res) => {
+  return res.render("list", { users });
+});
+
+app.get("/new", (req, res) => {
+  return res.render("new");
+});
+
+app.post("/create", (req, res) => {
+  users.push(req.body.user);
+  return res.redirect("/");
 });
 
 app.listen(3000);
