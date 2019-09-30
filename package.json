@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start-m1": "nodemon Modulo1/index.js"
+    "start-m1-p": "nodemon Modulo1/Principal/index.js",
+    "start-m1-d": "nodemon Modulo1/Desafio/index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
